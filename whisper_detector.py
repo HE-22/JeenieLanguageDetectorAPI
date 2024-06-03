@@ -6,7 +6,7 @@ import tempfile
 import os
 
 # Constants
-MODEL_NAME = "small"  # Hardcoded whisper model name
+MODEL_NAME = "large-v2"  # Hardcoded whisper model name
 
 class WhisperDetector:
     def __init__(self):
