@@ -1,3 +1,4 @@
+import logging
 from io import BytesIO
 from typing import Dict, List
 import whisper
@@ -39,9 +40,16 @@ class WhisperDetector:
             audio = whisper.load_audio(temp_file_path)
             audio = whisper.pad_or_trim(audio)
             mel = whisper.log_mel_spectrogram(audio).to(self.model.device)
-            _, probs_list = self.model.detect_language(mel)
-            probs = {k: v for d in probs_list for k, v in d.items()}
-            top_3_languages = sorted(probs.items(), key=lambda item: item[1], reverse=True)[:3]
+            _, probs_dict = self.model.detect_language(mel)
+            
+            # Add logging to debug the structure of probs_dict
+            logging.debug(f"probs_dict: {probs_dict}")
+            
+            # Ensure probs_dict is a dictionary
+            if not isinstance(probs_dict, dict):
+                raise ValueError("probs_dict is not a dictionary")
+            
+            top_3_languages = sorted(probs_dict.items(), key=lambda item: item[1], reverse=True)[:3]
             return [{"language": lang, "probability": prob} for lang, prob in top_3_languages]
         finally:
             # Clean up the temporary file
