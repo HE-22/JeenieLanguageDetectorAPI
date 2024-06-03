@@ -16,5 +16,5 @@ EXPOSE 5003
 # Define environment variable
 ENV FLASK_APP=server.py
 
-# Run app.py when the container launches
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5003"]
+# Run server.py when the container launches, using the PORT environment variable
+CMD ["flask", "run", "--host=0.0.0.0", "--port=${PORT:-5003}"]
