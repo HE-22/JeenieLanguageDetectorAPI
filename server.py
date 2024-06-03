@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 import logging
 from io import BytesIO
@@ -33,6 +34,9 @@ def detect_languages_api():
             logging.info(f"Detected languages: {detected_languages}")
 
             return jsonify({"detected_languages": detected_languages}), 200
+        except AttributeError as e:
+            logging.error(f"AttributeError: {e}")
+            return jsonify({"error": "Invalid file format or processing error"}), 400
         except Exception as e:
             logging.error(f"Error processing file: {e}")
             return jsonify({"error": "Error processing file"}), 500
@@ -41,4 +45,5 @@ def detect_languages_api():
     return jsonify({"error": "Unexpected error"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5003, debug=True)
+    port = int(os.environ.get('PORT', 5003))
+    app.run(host='0.0.0.0', port=port, debug=True)
