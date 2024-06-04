@@ -11,7 +11,7 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set environment variable
-ENV PORT 8080
+# ENV PORT 8080
 ENV FLASK_APP=main.py
 
 # Run the web service on container startup
