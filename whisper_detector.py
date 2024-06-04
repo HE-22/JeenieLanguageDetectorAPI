@@ -6,7 +6,7 @@ import tempfile
 import os
 
 class WhisperDetector:
-    def __init__(self, model_name: str = "tiny"):
+    def __init__(self, model_name: str = "large-v2"):
         """
         - Initializes the WhisperDetector with the specified model
         Args:
