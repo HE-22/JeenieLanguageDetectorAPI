@@ -1,21 +1,18 @@
-# Use an official Python runtime as a parent image
 FROM python:3.12.1-slim
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the current directory contents into the container at /app
+# Copy local code to the container image
 COPY . /app
 
-# Install any needed packages specified in requirements.txt
+# Set the working directory
+WORKDIR /app
+
+# Install dependencies
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Make port 8080 available to the world outside this container
-EXPOSE 8080
+# Set environment variable
+ENV PORT 8080
+ENV FLASK_APP=main.py
 
-# Define environment variable
-ENV FLASK_APP=server.py
-
-# Run server.py when the container launches, using the PORT environment variable
-CMD ["flask", "run", "--host=0.0.0.0", "--port", "$PORT"]
-
+# Run the web service on container startup
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
