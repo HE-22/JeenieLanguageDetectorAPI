@@ -6,11 +6,11 @@ import tempfile
 import os
 
 # Constants
-MODEL_NAME = "large-v2"  # Hardcoded whisper model name
+MODEL_PATH = "/app/whisper_model"  # Path to the preloaded whisper model
 
 class WhisperDetector:
     def __init__(self):
-        self.model = whisper.load_model(MODEL_NAME)
+        self.model = whisper.load_model(MODEL_PATH)
 
     def save_to_temp_file(self, audio_file: BytesIO) -> str:
         """
