@@ -14,7 +14,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Download and cache the Whisper model
-RUN python -c "import whisper; whisper.load_model('large-v2')"
+RUN python -c "import whisper; whisper.load_model('tiny')"
 
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
