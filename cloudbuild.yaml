@@ -1,7 +1,5 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '--platform', 'linux/amd64', '-t', 'gcr.io/$PROJECT_ID/detector-2', '.']
-options:
-  machineType: 'E2_HIGHCPU_16'
 images:
   - 'gcr.io/$PROJECT_ID/detector-2'
