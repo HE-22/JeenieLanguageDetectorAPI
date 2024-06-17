@@ -4,15 +4,17 @@ from typing import Dict, List
 import whisper
 import tempfile
 import os
+import torch
 
 class WhisperDetector:
-    def __init__(self, model_name: str = "large-v2"):
+    def __init__(self, model_name: str = "tiny"):
         """
         - Initializes the WhisperDetector with the specified model
         Args:
         - model_name: Name of the Whisper model to load (default is 'tiny')
         """
-        self.model = whisper.load_model(model_name)
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model = whisper.load_model(model_name).to(self.device)
 
     def save_to_temp_file(self, audio_file: BytesIO) -> str:
         """
@@ -41,7 +43,7 @@ class WhisperDetector:
             # Load audio using Whisper's load_audio function
             audio = whisper.load_audio(temp_file_path)
             audio = whisper.pad_or_trim(audio)
-            mel = whisper.log_mel_spectrogram(audio).to(self.model.device)
+            mel = whisper.log_mel_spectrogram(audio).to(self.device)
             _, probs_dict = self.model.detect_language(mel)
             
             # Add logging to debug the structure of probs_dict
