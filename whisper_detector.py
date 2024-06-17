@@ -7,11 +7,11 @@ import os
 import torch
 
 class WhisperDetector:
-    def __init__(self, model_name: str = "tiny"):
+    def __init__(self, model_name: str = "large-v2"):
         """
         - Initializes the WhisperDetector with the specified model
         Args:
-        - model_name: Name of the Whisper model to load (default is 'tiny')
+        - model_name: Name of the Whisper model to load 
         """
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.model = whisper.load_model(model_name).to(self.device)
